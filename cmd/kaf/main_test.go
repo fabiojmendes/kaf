@@ -2,12 +2,10 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"io"
 	"io/ioutil"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/orlangure/gnomock"
 	"github.com/orlangure/gnomock/preset/kafka"
@@ -42,8 +40,8 @@ func testMain(m *testing.M) (code int) {
 }
 
 func runCmd(t *testing.T, in io.Reader, args ...string) string {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
-	defer cancel()
+	// ctx, cancel := context.WithTimeout(context.Background(), time.Second*2)
+	// defer cancel()
 
 	b := bytes.NewBufferString("")
 
@@ -52,7 +50,7 @@ func runCmd(t *testing.T, in io.Reader, args ...string) string {
 	rootCmd.SetErr(b)
 	rootCmd.SetIn(in)
 
-	require.NoError(t, rootCmd.ExecuteContext(ctx))
+	require.NoError(t, rootCmd.Execute())
 
 	bs, err := ioutil.ReadAll(b)
 	require.NoError(t, err)
